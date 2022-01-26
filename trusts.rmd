@@ -1,0 +1,178 @@
+---
+title: Predicting NHS patient inflows during an infectious disease outbreak or pandemic
+author: SCC460 Group Project
+date: February 2022
+bibliography: trusts/bibliography.bib
+output:
+    rmarkdown::pdf_document:
+    keep_tex: FALSE
+    citation_package: "default"
+    number_sections: FALSE
+    extra_dependencies:
+        - booktabs
+header-includes:
+    - \usepackage{color}
+    - \usepackage{caption}
+    - \usepackage{booktabs}
+    - \captionsetup[figure]{font={normalsize, color=gray}, width=.8\linewidth}
+    - \usepackage{xcolor}
+---
+
+<!--- Global Settings --->
+```{r include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+<!--- Libraries --->
+```{r include = FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(magrittr)
+library(latex2exp)
+```
+# ABSTRACT
+
+Aim: To develop a prediction model that forecasts what the expected number of patient admissions will/might be - per day, N weeks ahead, and per NHS Trust - during an infectious disease pandemic.
+
+\vspace{10pt}
+
+Objectives: (a) Understanding, determining, the range of predictors that influence SARS-CoV-2 hospital admissions per NHS Trust, (b) Forecasting N weeks ahead
+
+\vspace{10pt}
+
+# INTRODUCTION
+
+
+\vspace{35pt}
+
+# METHODOLOGIES
+
+```{r fig.align = 'center', fig.cap = 'Steps'}
+knitr::include_graphics(path = 'images/flow.png', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
+  dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
+)
+```
+
+
+\vspace{10pt}
+
+## Research Strategy
+
+* Ideas: A Model of the Research Process [@Oates2006]
+
+\vspace{10pt}
+
+
+## Data Collection
+
+* A diagrammatic illustration of all the data sources, data transformations, feature engineering, data integration, etc., will be most useful.
+
+\vspace{10pt}
+
+## SARS-CoV-2 & Supplementary Data
+
+Thus far, the focus is the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) SARS-CoV-2 data; data extraction via
+the [API](https://coronavirus.data.gov.uk/details/developers-guide/main-api).  The table below outlines the variables
+in focus thus far.  A few points
+
+* Data variables, i.e., SARS-CoV-2 data measures, are not available at equivalent granularity.  For example, only a
+handful of un-aggregated measures are available at NHS Trust level; the aggregated measures depend on the un-aggregated measures.
+
+* Age demarcations are inconsistent: At the lower tier local authority (LTLA) level, the age groups used for
+*newCasesBySpecimenDateAgeDemographics*, differ from the age groups used for *vaccinationsAgeDemographics*.
+Although the API does not include NHS Trust level age group decompositions, such decompositions are available
+via [COVID-19 Hospital Activity](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-hospital-activity/),
+which – amazingly – uses a third different set of age group demarcations.
+
+* A few API variables have misleading names, these [are renamed](https://github.com/premodelling/infections/blob/develop/config.py); the NHS Trust level variables have been renamed to reflect their original
+[COVID-19 Hospital Activity](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-hospital-activity/)
+labels.
+
+\vspace{10pt}
+
+## Addressing Disparate Data
+
+The prospective modelling measures exists at either NHS Trust or Lower Tier Local Authority (LTLA) level, and because our interest is in NHS Trust level admissions, we need the NHS Trust level forms of the LTLA measures.
+
+\vspace{10pt}
+
+**Approach**: In brief, a section of NHS England records the number of patients that each Middle Super Output Area (MSOA) contributes to each NHS Trust each year; each MSOA contributes patients to one or more NHS Trusts.  However, each MSOA region is a member of one LTLA region, hence the number of patients that each LTLA contributes to a NHS Trust, per year, can be calculated via appropriate aggregates.  Via these LTLA level aggregates the questions - *per LTLA that contributes to a NHS Trust*
+
+\vspace{5pt}
+
+* what fraction of the LTLA's patients did the trust receive?
+* what fraction of the LTLA's patients, within age group 5 - 9, did the trust receive?
+
+\vspace{5pt}
+
+are calculable, and the resulting fractions guide the apportioning of LTLA level COVID measures
+to NHS Trusts.
+
+\vspace{10pt}
+
+**Assumptions**: The preceding approach makes a few assumptions, e.g.,
+
+* The 2019 patient flow fractions from a LTLA to a NHS Trust, for all admissions types, are reasonable estimates of flow
+fractions for any admission type.  Not ideal.  There are several arguments against this assumption.  For example, and in relation to SARS-CoV-2, are all trusts equally equipped to deal with a respiratory pandemic?
+
+* The population characteristics of each LTLA change minimally within a short period.  Not ideal either.
+
+\vspace{10pt}
+
+## Flow Weights
+
+The total # of patients recieved by a trust
+The population of a LTLA: \(\alpha\)
+The population of a LTLA by age group sex: \(\alpha_{ags}\)
+The population of a LTLA by age group: \(\alpha_{ag}\)
+The patient population of a LTLA: \(\rho\)
+The # of LTLA Patients \(\rightarrow\) NHS Trust: \(\beta\)
+The fraction of a LTLA's patients received by a trust:  \(\lambda\) =  \(\beta\)/ \(\rho\)  [weight]
+The estimated age group sex fraction received by a trust: \(\lambda_{ags}\) = \(\lambda\alpha_{ags} / \alpha\) [weight]
+The estimated age group fraction received by a trust: \(\lambda_{ag}\) = \(\lambda\alpha_{ag} / \alpha\) [weight]
+
+\vspace{10pt}
+
+
+## Modelling
+
+* Pre-modelling procedures.   [This point refers to the pre-ML/pre-forecasting pre-processing. It is separate from the initial pre-processing & features engineering that leads to the raw design matrix and dependent variable.]
+* Data mining techniques?
+* Statistical techniques?
+
+
+
+
+\vspace{35pt}
+
+# RESULTS
+
+Project guide:
+
+* Explain your results and what your analysis revealed
+
+* What implications would your analysis' results have? How do your findings relate to the original question?
+
+* Were there potential biases in your work?
+
+* Validity
+
+\vspace{35pt}
+
+# CONCLUSIONS
+
+
+Project Guide:
+
+* Reflection on the approach taken. (Appropriate?)
+
+* How would you have improved the approach in future? (Alternative methodologies, models, etc)
+
+
+\vspace{35pt}
+
+# REFERENCES
+
