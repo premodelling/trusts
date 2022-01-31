@@ -18,6 +18,3 @@ ValidationHistoryLoss(melted = melted)
 endpoints <- EvaluationEndpointsData()
 EndpointsMAE(endpoints = endpoints)
 EndpointsLoss(endpoints = endpoints)
-
-
-
