@@ -26,7 +26,10 @@ ValidationHistoryMAE <- function (melted) {
           axis.title.x = element_text(size = 13), axis.title.y = element_text(size = 13)) +
     xlab(label = '\nEpoch\n') +
     ylab(label = '\nValidation: MAE\n') +
-    guides(shape = guide_legend(title='Days of history\nfor prediction'), colour = guide_legend(title='Days of history\nfor prediction') ) +
+    guides(colour = guide_legend(title='Days of history\nfor prediction',
+                                 title.theme = element_text(size = 12),
+                                 nrow = 5,
+                                 label.theme = element_text(size = 11))) +
     scale_colour_hue(l = 25, c = 85)
 
 }
@@ -53,7 +56,10 @@ ValidationHistoryLoss <- function (melted) {
           axis.title.x = element_text(size = 13), axis.title.y = element_text(size = 13)) +
     xlab(label = '\nEpoch\n') +
     ylab(label = '\nValidation: Loss\n') +
-    guides(shape = guide_legend(title='Days of history\nfor prediction'), colour = guide_legend(title='Days of history\nfor prediction') ) +
+    guides(colour = guide_legend(title='Days of history\nfor prediction',
+                                 title.theme = element_text(size = 12),
+                                 nrow = 5,
+                                 label.theme = element_text(size = 11)) ) +
     scale_colour_hue(l = 25, c = 85)
 
 }
