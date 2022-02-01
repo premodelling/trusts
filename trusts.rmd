@@ -35,19 +35,12 @@ library(stringr)
 library(magrittr)
 library(latex2exp)
 ```
-# ABSTRACT
 
-Aim: To develop a prediction model that forecasts what the expected number of patient admissions will/might be - per day, N weeks ahead, and per NHS Trust - during an infectious disease pandemic.
-
-\vspace{10pt}
-
-Objectives: (a) Understanding, determining, the range of predictors that influence SARS-CoV-2 hospital admissions per NHS Trust, (b) Forecasting N weeks ahead
-
-\vspace{35pt}
 
 # INTRODUCTION
 
-In progress $\ldots$ includes research strategy [@Oates2006]
+
+\textcolor{blue}{At the end of this section $\rightarrow$ Overview of the project's methodology and findings}
 
 \vspace{35pt}
 
@@ -55,64 +48,18 @@ In progress $\ldots$ includes research strategy [@Oates2006]
 
 # METHODS
 
-An exploration of ...
+## Research Strategy
 
-
-\vspace{10pt}
-
-```{r out.width = '60%', fig.align = 'center', fig.cap = 'Steps'}
-knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
-  dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
-)
-```
-
-\footnotesize
-
-**Figure ...**: A high level illustration of the project's processing, analysis, modelling, and evaluation steps. The acronyms/abbreviations are
-API: application programming interface, MSOA: middle layer super output area ([a United Kingdom census geography](https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography)), LTLA: lower tier local authority ([a United Kingdom admnitrative geography](https://www.ons.gov.uk/methodology/geography/ukgeographies/administrativegeography)), ONS: office for national statistics, NHS: national health service, PHE: Public Health England.  The ONS, NHS, and PHE, are United Kingdom entities.
-
-The data sources are &rarr; England's SARS-CoV-2 infections related measures: [coronavirus.data.gov.uk API](https://coronavirus.data.gov.uk/details/developers-guide/main-api), demographics data: [ONS](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/middlesuperoutputareamidyearpopulationestimates),
-MSOA $\leftrightarrow$ LTLA geographic codes mappings: [Open Geography Portal (geoportal)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(LUP_MSOA_WD_LAD)), annual intake of patients from one or more MSOA areas to an NHS Trust: **(a)** [NHS Trust Catchments Estimation](https://app.box.com/s/qh8gzpzeo1firv1ezfxx2e6c4tgtrudl), **(b)** [visualisations of](https://app.powerbi.com/view?r=eyJrIjoiODZmNGQ0YzItZDAwZi00MzFiLWE4NzAtMzVmNTUwMThmMTVlIiwidCI6ImVlNGUxNDk5LTRhMzUtNGIyZS1hZDQ3LTVmM2NmOWRlODY2NiIsImMiOjh9)
-
-Please refer to the methodologies section for a description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.
-
-\normalsize
-
-\pagebreak
-
-
-
-
-## Data Collection
-
-The data sources are ...
+In progress $\ldots$ includes research strategy [@Oates2006]
 
 \vspace{10pt}
 
-## SARS-CoV-2 Related Measures
+## Data Engineering
 
-EDIT (delete most)
+* The data is from ... (the data sources)
+* Hence, LTLA level aggregates .... (structuring, integrating)
+* Hence, create features for modelling ... (features engineering)
 
-Thus far, the focus is the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) SARS-CoV-2 data; data extraction via
-the [API](https://coronavirus.data.gov.uk/details/developers-guide/main-api).  The table below outlines the variables
-in focus thus far.  A few points
-
-* Data variables, i.e., SARS-CoV-2 data measures, are not available at equivalent granularity.  For example, only a
-handful of un-aggregated measures are available at NHS Trust level; the aggregated measures depend on the un-aggregated measures.
-
-* Age demarcations are inconsistent: At the lower tier local authority (LTLA) level, the age groups used for
-*newCasesBySpecimenDateAgeDemographics*, differ from the age groups used for *vaccinationsAgeDemographics*.
-Although the API does not include NHS Trust level age group decompositions, such decompositions are available
-via [COVID-19 Hospital Activity](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-hospital-activity/),
-which – amazingly – uses a third different set of age group demarcations.
-
-* A few API variables have misleading names, these [are renamed](https://github.com/premodelling/infections/blob/develop/config.py); the NHS Trust level variables have been renamed to reflect their original
-[COVID-19 Hospital Activity](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-hospital-activity/)
-labels.
-
-\vspace{10pt}
-
-## Addressing Disparate Data
 
 The prospective modelling measures exists at either NHS Trust or Lower Tier Local Authority (LTLA) level, and because our interest is in NHS Trust level admissions, we need the NHS Trust level forms of the LTLA measures.
 
@@ -141,17 +88,39 @@ fractions for any admission type.  Not ideal.  There are several arguments again
 
 \vspace{10pt}
 
-## Flow Weights
+**Flow weights notes**
 
-The total # of patients recieved by a trust
-The population of a LTLA: \(\alpha\)
-The population of a LTLA by age group sex: \(\alpha_{ags}\)
-The population of a LTLA by age group: \(\alpha_{ag}\)
-The patient population of a LTLA: \(\rho\)
-The # of LTLA Patients \(\rightarrow\) NHS Trust: \(\beta\)
-The fraction of a LTLA's patients received by a trust:  \(\lambda\) =  \(\beta\)/ \(\rho\)  [weight]
-The estimated age group sex fraction received by a trust: \(\lambda_{ags}\) = \(\lambda\alpha_{ags} / \alpha\) [weight]
-The estimated age group fraction received by a trust: \(\lambda_{ag}\) = \(\lambda\alpha_{ag} / \alpha\) [weight]
+* The total # of patients recieved by a trust
+* The population of a LTLA: \(\alpha\)
+* The population of a LTLA by age group sex: \(\alpha_{ags}\)
+* The population of a LTLA by age group: \(\alpha_{ag}\)
+* The patient population of a LTLA: \(\rho\)
+* The # of LTLA Patients \(\rightarrow\) NHS Trust: \(\beta\)
+* The fraction of a LTLA's patients received by a trust:  \(\lambda\) =  \(\beta\)/ \(\rho\)  [weight]
+* The estimated age group sex fraction received by a trust: \(\lambda_{ags}\) = \(\lambda\alpha_{ags} / \alpha\) [weight]
+* The estimated age group fraction received by a trust: \(\lambda_{ag}\) = \(\lambda\alpha_{ag} / \alpha\) [weight]
+
+
+\vspace{10pt}
+
+```{r out.width = '60%', fig.align = 'center', fig.cap = 'Steps'}
+knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
+  dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
+)
+```
+
+\footnotesize
+
+**Figure ...**: A high level illustration of the project's processing, analysis, modelling, and evaluation steps. The acronyms/abbreviations are
+API: application programming interface, MSOA: middle layer super output area ([a United Kingdom census geography](https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography)), LTLA: lower tier local authority ([a United Kingdom admnitrative geography](https://www.ons.gov.uk/methodology/geography/ukgeographies/administrativegeography)), ONS: office for national statistics, NHS: national health service, PHE: Public Health England.  The ONS, NHS, and PHE, are United Kingdom entities.
+
+The data sources are &rarr; England's SARS-CoV-2 infections related measures: [coronavirus.data.gov.uk API](https://coronavirus.data.gov.uk/details/developers-guide/main-api), demographics data: [ONS](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/middlesuperoutputareamidyearpopulationestimates),
+MSOA $\leftrightarrow$ LTLA geographic codes mappings: [Open Geography Portal (geoportal)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(LUP_MSOA_WD_LAD)), annual intake of patients from one or more MSOA areas to an NHS Trust: **(a)** [NHS Trust Catchments Estimation](https://app.box.com/s/qh8gzpzeo1firv1ezfxx2e6c4tgtrudl), **(b)** [visualisations of](https://app.powerbi.com/view?r=eyJrIjoiODZmNGQ0YzItZDAwZi00MzFiLWE4NzAtMzVmNTUwMThmMTVlIiwidCI6ImVlNGUxNDk5LTRhMzUtNGIyZS1hZDQ3LTVmM2NmOWRlODY2NiIsImMiOjh9)
+
+Please refer to the methodologies section for a description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.
+\normalsize
+
+\pagebreak
 
 \vspace{10pt}
 
@@ -162,24 +131,43 @@ The estimated age group fraction received by a trust: \(\lambda_{ag}\) = \(\lamb
 * Data mining techniques?
 * Statistical techniques?
 
+H.A., J.R., C.O. were discussing:
 
+* Data preparation ... temporal splitting, [rec, diff,  ...]
+* model design & training ...
+  * CNN, LSTM, GRU ... why?  briefly discuss type of problem
+  * Window ... why?  ... forecasting 15 days into the future based on unknown "effective days of history" ... windows allow us to investigate via varying history window sizes
+
+\vspace{10pt}
+
+## Evaluation
+A brief description of the evaluation metrics.  [Results discusses the evaluations in detail]
 
 
 \vspace{35pt}
+
 
 # RESULTS
 
+## Model Evaluation
+
 Project guide:
 
-* Explain your results and what your analysis revealed
+* Explain your results and what your analysis revealed ()
 
 * What implications would your analysis' results have? How do your findings relate to the original question?
 
+## Biases & Validity
+
 * Were there potential biases in your work?
 
-* Validity
+* Validity (remember to discuss what would have been done differently to address identified limitations)
+
+
 
 \vspace{35pt}
+
+
 
 # CONCLUSIONS
 
