@@ -39,6 +39,13 @@ library(latex2exp)
 
 # INTRODUCTION
 
+Thus far, the focus is the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) SARS-CoV-2 data; data extraction via
+the [API](https://coronavirus.data.gov.uk/details/developers-guide/main-api).  The table below outlines the variables
+in focus thus far.  A few points [@Knight2020]
+
+* Data variables, i.e., SARS-CoV-2 data measures, are not available at equivalent granularity.  For example, only a
+handful of un-aggregated measures are available at NHS Trust level; the aggregated measures depend on the un-aggregated measures.
+
 
 \textcolor{blue}{At the end of this section $\rightarrow$ Overview of the project's methodology and findings}
 
