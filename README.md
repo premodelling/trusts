@@ -1,6 +1,10 @@
 
 <br>
 
+https://www.ctan.org/topic/bibtex-doc 
+
+<br>
+
 ### Independent Development Environment
 
 * Edit the help file skeletons in 'man', possibly combining help files
