@@ -13,7 +13,7 @@ EndpointsMAE <- function (endpoints) {
     dplyr::filter(Metric == 'mae') %>%
     ggplot(mapping = aes(x = history, y = Estimate, colour = method)) +
     geom_point(alpha = 0.65, size = 3) +
-    facet_wrap(~phase, labeller = as_labeller(c('validation' = 'Validation Phase', 'testing' = 'Testing Phase')),
+    facet_wrap(~phase, nrow = 2, ncol = 1, labeller = as_labeller(c('validation' = 'Validation Phase', 'testing' = 'Testing Phase')),
                scales = 'free_y') +
     coord_trans(y = scales::log_trans()) +
     theme_minimal()  +
@@ -45,7 +45,7 @@ EndpointsLoss <- function (endpoints) {
     dplyr::filter(Metric == 'loss') %>%
     ggplot(mapping = aes(x = history, y = Estimate, colour = method)) +
     geom_point(alpha = 0.65, size = 3) +
-    facet_wrap(~phase, labeller = as_labeller(c('validation' = 'Validation Phase', 'testing' = 'Testing Phase')),
+    facet_wrap(~phase, nrow = 2, ncol = 1, labeller = as_labeller(c('validation' = 'Validation Phase', 'testing' = 'Testing Phase')),
                scales = 'free_y') +
     coord_trans(y = scales::log_trans()) +
     theme_minimal()  +
