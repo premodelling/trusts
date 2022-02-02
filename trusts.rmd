@@ -132,8 +132,27 @@ A brief description of the evaluation metrics.  [Results discusses the evaluatio
 
 ## MODEL EVALUATION
 
-```{r out.width = '85%', fig.align = 'center', fig.cap = 'Pending'}
+```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'MAE w.r.t. the ...'}
+endpoints <- EvaluationEndpointsData()
+EndpointsMAE(endpoints = endpoints)
+```
+
+
+
+
+```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'Loss w.r.t. the ...'}
+EndpointsLoss(endpoints = endpoints)
+```
+
+
+```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'Pending'}
 melted <- EvaluationHistoriesData()
+ValidationHistoryMAE(melted = melted)
+```
+
+
+```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'The loss errors'}
+ValidationHistoryLoss(melted = melted)
 ```
 
 Project guide:
