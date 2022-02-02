@@ -100,7 +100,7 @@ The data sources are: (a) the [coronavirus.data.gov.uk](https://coronavirus.data
 
 \textcolor{blue}{In progress $\ldots$}  The prospective modelling measures exists at either NHS Trust or Lower Tier Local Authority (LTLA) level, but our interest lies is in NHS Trust level admissions, therefore ... the NHS Trust level estimates ...
 
-In brief, the aforementioned PHE England data set outlines the number of patients that each MSOA contributes to each NHS Trust each year; each MSOA contributes patients to one or more NHS Trusts.  However, each MSOA region is a member of exactly one LTLA region, hence the number of patients that each LTLA contributes to a NHS Trust, per year, is deducible via appropriate aggregates.  Hence, *the flow weight from a LTLA to a NHS Trust it contributes to, and for a specified year, is*
+In brief, the aforementioned PHE England data set has a list of the number of patients that each MSOA contributes to each NHS Trust each year; each MSOA contributes patients to one or more NHS Trusts.  However, each MSOA region is a member of exactly one LTLA region, hence the number of patients that each LTLA contributes to a NHS Trust, per year, is deducible via appropriate aggregates.  Hence, *the flow weight from a LTLA to a NHS Trust it contributes to, and for a specified year, is*
 
 \vspace{10pt}
 
