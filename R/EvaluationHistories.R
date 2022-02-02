@@ -13,7 +13,7 @@ ValidationHistoryMAE <- function (melted) {
   excerpt %>%
     ggplot(mapping = aes(x = epoch, y = Estimate, colour = history)) +
     geom_point(alpha = 0.75, size = 2.5) +
-    facet_wrap(~method, scales = 'free_y') +
+    facet_wrap(~method, nrow = 2, ncol = 1, scales = 'free_y') +
     coord_trans(y = scales::log_trans()) +
     theme_minimal() +
     theme(panel.spacing = unit(x = 3, units = 'lines'),
@@ -28,7 +28,7 @@ ValidationHistoryMAE <- function (melted) {
     ylab(label = '\nValidation: MAE\n') +
     guides(colour = guide_legend(title='Days of history\nfor prediction',
                                  title.theme = element_text(size = 12),
-                                 nrow = 5,
+                                 nrow = 15,
                                  label.theme = element_text(size = 11))) +
     scale_colour_hue(l = 25, c = 85)
 
@@ -43,7 +43,7 @@ ValidationHistoryLoss <- function (melted) {
   excerpt %>%
     ggplot(mapping = aes(x = epoch, y = Estimate, colour = history)) +
     geom_point(alpha = 0.75, size = 2.5) +
-    facet_wrap(~method, scales = 'free_y') +
+    facet_wrap(~method, nrow = 2, ncol = 1,, scales = 'free_y') +
     coord_trans(y = scales::log_trans()) +
     theme_minimal() +
     theme(panel.spacing = unit(x = 3, units = 'lines'),
@@ -58,7 +58,7 @@ ValidationHistoryLoss <- function (melted) {
     ylab(label = '\nValidation: Loss\n') +
     guides(colour = guide_legend(title='Days of history\nfor prediction',
                                  title.theme = element_text(size = 12),
-                                 nrow = 5,
+                                 nrow = 15,
                                  label.theme = element_text(size = 11)) ) +
     scale_colour_hue(l = 25, c = 85)
 
