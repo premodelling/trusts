@@ -58,6 +58,12 @@ sys.source(file = 'R/EvaluationEndpoints.R', envir = knitr::knit_global())
 
 # INTRODUCTION
 
+\textcolor{blue}{Reviewer: HA}
+
+In December 2019, COVID-19, a newly emerging human virus, was discovered in China. Since then, it has spread rapidly across the globe. China's city of Wuhan is believed to be the epicentre of a pandemic that has caused massive hospitalisations [@Knight2020]. Besides fever and coughing, the new virus can also cause shortness of breath, pneumonia, as well as various serious respiratory infections [@Knight2020]. The growing number of daily contamination cases and massive hospitalizations is a serious threat to already overburdened health systems around the world. Thus, the health system cannot meet the needs of many patients with urgent medical conditions due to overcrowded hospitals \textcolor{blue}{MISSING REF: Bhapkar2020}.
+Most of the earlier Covid-19 hospitalization prediction studies focused on predictors such as new daily cases, vaccination rates, pre-existing health conditions, population size and socio-demographic factors to set up hospitalization patterns and trends \textcolor{blue}{MISSING REF: Zhou2018}.
+It is essential to monitor and forecast new admissions for inpatients to manage hospital resources efficiently, reduce overcrowding, and improve the quality of care received \textcolor{blue}{MISSING REF ...}. Therefore, in this study, we aim to find the range of predictors that may affect SARS-CoV-2 hospital admissions per NHS Trust as well as to predict Covid-19 new admission inpatients using time series models. Addressing these two research questions will improve NHS performance and patient outcomes by supplying more efficient and higher-quality patient care and optimising the allocation of limited resources to meet the growing demand for hospital places \textcolor{blue}{MISSING REF: Huang2019}.
+
 Hence, the project focused on the development of overarching task is the development of a model that predicts a NHS Trust's expected new admissions, per day,  This led to three core challenges
 
 The models forecast the expected new coronavirus disease admissions per day for the next 15 days.
@@ -132,7 +138,7 @@ A brief description of the evaluation metrics.  [Results discusses the evaluatio
 
 ## MODEL EVALUATION
 
-```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'MAE w.r.t. the ...'}
+```{r out.width = '55%', fig.height = 8, fig.align = 'center', fig.cap = 'MAE w.r.t. the ...'}
 endpoints <- EvaluationEndpointsData()
 EndpointsMAE(endpoints = endpoints)
 ```
@@ -140,10 +146,11 @@ EndpointsMAE(endpoints = endpoints)
 
 
 
-```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'Loss w.r.t. the ...'}
+```{r out.width = '55%', fig.height = 8, fig.align = 'center', fig.cap = 'Loss w.r.t. the ...'}
 EndpointsLoss(endpoints = endpoints)
 ```
 
+\pagebreak
 
 ```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'Pending'}
 melted <- EvaluationHistoriesData()
