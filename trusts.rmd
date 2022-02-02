@@ -100,28 +100,7 @@ The data sources are: (a) the [coronavirus.data.gov.uk](https://coronavirus.data
 
 \textcolor{blue}{In progress $\ldots$}  The prospective modelling measures exists at either NHS Trust or Lower Tier Local Authority (LTLA) level, but our interest lies is in NHS Trust level admissions, therefore ... the NHS Trust level estimates ...
 
-In brief, if each MSOA contributes patients to one or more NHS Trusts, and is a member of exactly one LTLA region, then the number of patients that a LTLA region contributes to a NHS Trust, per year, is deducible via appropriate aggregates.  Hence, *the flow weight from a LTLA to a NHS Trust it contributes to, and for a specified year, is*
 
-\vspace{10pt}
-
-$$\lambda_{l, \: t} =  \frac{\beta_{l, \: t}}{\rho_{l}}$$
-
-\vspace{10pt}
-
-wherein
-
-\vspace{10pt}
-
-\begin{center}
-    \begin{tabular}{c p{0.65\linewidth}l}\footnotesize
-    variable & description \\
-    $l$   & a LTLA \\
-    $t$ & a NHS Trust \\
-    $\rho_{l}$  & the patient population of a LTLA \\
-    $\beta_{l, \: t}$ & the number of LTLA patients \(\rightarrow\) NHS Trust  w.r.t. a specified year \\
-    \end{tabular}
-    \captionof{table}{Flow formula variables.  The population values are ONS estimates w.r.t. a specified year.}
-\end{center}
 
 
 \vspace{10pt}
