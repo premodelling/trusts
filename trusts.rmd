@@ -84,17 +84,20 @@ In progress $\ldots$ includes research strategy [@Oates2006]
 
 ## DATA ENGINEERING
 
-Data Collection. <br>
+### Data Collection.
+
 The data sources are: (a) the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk/details/developers-guide/main-api) application programming interface (API) for England's SARS-CoV-2 infections measures, (b) the [office for national statistics (ONS)](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/middlesuperoutputareamidyearpopulationestimates) for population estimates, (c) [Public Health England (PHE)](https://app.box.com/s/qh8gzpzeo1firv1ezfxx2e6c4tgtrudl) for the annual intake of patients from one or more middle layer super output areas to an NHS Trust, and (d) the [Open Geography Portal (geoportal)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(LUP_MSOA_WD_LAD)) for the middle layer super output area (MSOA) $\leftrightarrow$ lower tier local authority (LTLA) geographic codes mappings.
 
 \vspace{10pt}
 
-Structuring & Integrating.  <br>
+### Structuring & Integrating.
+
 \textcolor{blue}{In progress $\ldots$}
 
 \vspace{10pt}
 
-Features Engineering. <br>
+### Features Engineering.
+
 \textcolor{blue}{In progress $\ldots$}  The prospective modelling measures exists at either NHS Trust or Lower Tier Local Authority (LTLA) level, but our interest lies is in NHS Trust level admissions, therefore ... the NHS Trust level estimates ...
 
 In brief, the aforementioned PHE England data set outlines the number of patients that each MSOA contributes to each NHS Trust each year; each MSOA contributes patients to one or more NHS Trusts.  However, each MSOA region is a member of exactly one LTLA region, hence the number of patients that each LTLA contributes to a NHS Trust, per year, is deducible via appropriate aggregates.  Hence, *the flow weight from a LTLA to a NHS Trust it contributes to, and for a specified year, is*
