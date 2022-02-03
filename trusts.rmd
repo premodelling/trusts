@@ -22,8 +22,8 @@ header-includes:
     - \usepackage{color}
     - \usepackage{caption}
     - \usepackage{booktabs}
-    - \captionsetup[figure]{font={small, color=gray}, width=.8\linewidth}
-    - \captionsetup[table]{font={small, color=gray}, width=.8\linewidth}
+    - \captionsetup[figure]{font={footnotesize, color=gray}, width=.8\linewidth}
+    - \captionsetup[table]{font={footnotesize, color=gray}, width=.8\linewidth}
     - \usepackage{xcolor}
     - \usepackage{titlesec}
     - \usepackage{tikz}
@@ -58,20 +58,20 @@ sys.source(file = 'R/EvaluationEndpoints.R', envir = knitr::knit_global())
 
 # INTRODUCTION
 
-Since late January 2020, there have been over 17,515,199 SARS-CoV-2 case in the United Kingdom (UK) [@Flynn2020]. This virus can cause high fever, coughing, shortness of breath, pneumonia, as well as serious respiratory infections \textcolor{blue}{MISSING REF: Original reference required}. The growing number of daily infections and hospitalisations in the UK constitute a serious threat to an already overburdened healthcare system . Indeed, the National Health Service (NHS) cannot meet the needs of many patients with urgent medical conditions due to overcrowded hospitals \textcolor{blue}{MISSING REF: Original reference required.
+Since late January 2020, there have been over 17,515,199 cases of SARS-CoV-2 infections in the United Kingdom (UK) [@Flynn2020]. This virus can cause high fever, coughing, shortness of breath, pneumonia, as well as serious respiratory infections \textcolor{blue}{MISSING REF: Original reference required}. The growing number of daily infections and hospitalisations in the UK constitute a serious threat to an already overburdened healthcare system . Indeed, the National Health Service (NHS) cannot meet the needs of many patients with urgent medical conditions due to overcrowded hospitals \textcolor{blue}{MISSING REF: Original reference required}.
+
 It is essential to monitor and forecast new inpatient admissions \textcolor{blue}{in order to} manage hospital resources efficiently, reduce overcrowding, and improve the quality of care received \textcolor{blue}{MISSING REF ...}. Therefore, this study focuses on the development of a coronavirus 19 disease new inpatients' prediction model.  Addressing this research question may help improve NHS performance and patient outcomes by providing more efficient and higher-quality patient care and optimising the allocation of limited resources to meet the growing demand for hospital places \textcolor{blue}{MISSING REF: Huang2019}.
 
-\textcolor{blue}{The succeeding section outlines the project's research strategy, and the data engineering, modelling, and evaluation steps.  Thereafter ...}
+The succeeding section outlines the project's research strategy, and the data engineering, modelling, and evaluation steps.  By virtue  Thereafter, ...
 
 \vspace{35pt}
 
-\pagebreak
 
 # METHODS
 
 The schematic illustration of *figure ...* outlines the project's data engineering, modelling, and evaluation steps, which underlie the project's research strategy.  This section briefly discusses the research strategy, and the steps.
 
-```{r out.width = '90%', fig.align = 'center', fig.cap = "The project's processing, analysis, modelling, and evaluation steps.  Please refer to the methodologies section for a brief description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.  MSOA: middle layer super output area, LTLA: lower tier local authority, ONS: office for national statistics, NHS: national health service, PHE: Public Health England."}
+```{r out.width = '90%', dpi = 85, fig.align = 'center', fig.cap = "The project's processing, analysis, modelling, and evaluation steps.  Please refer to the methodologies section for a brief description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.  MSOA: middle layer super output area, LTLA: lower tier local authority, ONS: office for national statistics, NHS: national health service, PHE: Public Health England."}
 knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
                         dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
 )
@@ -122,7 +122,7 @@ The aim of the feature engineering segment is the construction of the design mat
 
 \vspace{10pt}
 
-The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](coronavirus.data.gov.uk) API, whereas the remaining variables are project estimated NHS Trust level measures.  The project estimates rely on (a) the LTLA Level measures of the API, and (b) ...
+The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) API, whereas the remaining variables are project estimated NHS Trust level measures.  The project estimates rely on (a) the LTLA Level measures of the API, and (b) ...
 
 \vspace{20pt}
 
