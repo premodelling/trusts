@@ -29,6 +29,7 @@ header-includes:
     - \usepackage{tikz}
     - \usetikzlibrary{shapes.geometric, arrows.meta, matrix, arrows, automata, positioning, shadows, trees}
     - \definecolor{darkgrey}{rgb}{.45,.45,.45}
+    - \definecolor{wine}{rgb}{.44,.18,.21}
     - \titleformat*{\subsection}{\bfseries\large\color{darkgrey}}
 ---
 
@@ -69,13 +70,15 @@ The succeeding section outlines the project's research strategy, and the data en
 
 # METHODS
 
-The schematic illustration of *figure ...* outlines the project's data engineering, modelling, and evaluation steps, which underlie the project's research strategy.  This section briefly discusses the research strategy, and the steps.
+The schematic illustration of *fig. 1* outlines the project's data engineering, modelling, and evaluation steps, which underlie the project's research strategy.  This section briefly discusses the research strategy, and the steps.
 
-```{r out.width = '90%', dpi = 85, fig.align = 'center', fig.cap = "The project's processing, analysis, modelling, and evaluation steps.  Please refer to the methodologies section for a brief description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.  MSOA: middle layer super output area, LTLA: lower tier local authority, ONS: office for national statistics, NHS: national health service, PHE: Public Health England."}
+```{r out.width = '90%', dpi = 105, fig.align = 'center', fig.cap = "The project's processing, analysis, modelling, and evaluation steps.  Please refer to the methodologies section for a brief description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.  MSOA: middle layer super output area, LTLA: lower tier local authority, ONS: office for national statistics, NHS: national health service, PHE: Public Health England."}
 knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
                         dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
 )
 ```
+
+\vspace{20pt}
 
 ## RESEARCH STRATEGY
 
@@ -89,40 +92,60 @@ In progress $\ldots$ includes research strategy [@Oates2006]
 
 The data sources are: (a) the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk/details/developers-guide/main-api) application programming interface (API) for England's SARS-CoV-2 infections measures, (b) the [office for national statistics (ONS)](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/middlesuperoutputareamidyearpopulationestimates) for population estimates, (c) [Public Health England (PHE)](https://app.box.com/s/qh8gzpzeo1firv1ezfxx2e6c4tgtrudl) for the annual intake of patients from one or more middle layer super output areas to an NHS Trust, and (d) the [Open Geography Portal (geoportal)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(LUP_MSOA_WD_LAD)) for the middle layer super output area (MSOA) $\leftrightarrow$ lower tier local authority (LTLA) geographic codes mappings.
 
-\vspace{10pt}
-
 ### Structuring & Integrating.
 
-The structuring and integrating segment of $fig. 4$ ensures that all the data sets
+The structuring and integrating segment of $fig. 1$ ensures that all the data sets
 
 * have a [structured data file](https://www.ibm.com/cloud/blog/structured-vs-unstructured-data) set up, and
 * are appropriately mapped
 
 as illustrated.
 
-\vspace{10pt}
+
 
 ### Features Engineering.
 
-The aim of the feature engineering segment is the construction of the design matrix & outcome vector variables.  The design matrix variables are the set of predictors, i.e., independent variables.  ... *fig. 1* outlines the variables-construction steps, and the variables are
+The aim of *fig. 1's* feature engineering segment is the construction of the design matrix & outcome vector variables.  The design matrix variables are the set of predictors, i.e., independent variables.  The variables are
 
 \vspace{10pt}
 
-* ``covidOccupiedBeds``: The no. of beds occupied by coronavirus disease patients.
+* \textcolor{wine}{covidOccupiedBeds}: The no. of beds occupied by coronavirus disease patients.
 
-* ``covidOccupiedMVBeds``: The no. of mechanical ventilation beds occupied by coronavirus disease patients.
+* \textcolor{wine}{covidOccupiedMVBeds}: The no. of mechanical ventilation beds occupied by coronavirus disease patients.
 
-* ``estimatedNewAdmissions``: **The outcome variable**.   Estimated by NHS England.
+* \textcolor{wine}{estimatedNewAdmissions}: **The outcome variable**.   Estimated by NHS England.
 
-* ``EDC0-4``, ``EDC5-9``, ..., ``EDC90+``: The estimated daily cases (EDC) by age group.
+* \textcolor{wine}{EDC0-4, EDC5-9, ..., EDC90+}: The estimated daily cases (EDC) by age group.
 
-* ``newDeaths28DaysByDeathDate``: The no. of estimated daily deaths, such that each death occurred *within 28 days of a first positive laboratory-confirmed test*.
+* \textcolor{wine}{newDeaths28DaysByDeathDate}: The no. of estimated daily deaths, such that each death occurred *within 28 days of a first positive laboratory-confirmed test*.
 
-* ``EDV12-15``, ``EDV16-17``, ..., ``EDV90+``: The estimated no. of daily vaccinations (EDV) by age group; second vaccinations.
+* \textcolor{wine}{EDV12-15, EDV16-17, ..., EDV90+}: The estimated no. of daily vaccinations (EDV) by age group; second vaccinations.
 
 \vspace{10pt}
 
-The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) API, whereas the remaining variables are project estimated NHS Trust level measures.  The project estimates rely on (a) the LTLA Level measures of the API, and (b) ...
+The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) API, whereas the remaining variables are project estimated NHS Trust level measures.  An estimated NHS Trust value
+
+$$e_{t} = \sum_{l}{\lambda_{l, \: t} m_{l}}$$
+
+whereby
+
+$$\lambda_{l, \: t} =  \frac{\beta_{l, \: t}}{\rho_{l}}$$
+
+and
+
+\begin{center}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{c p{0.65\linewidth}l}\footnotesize
+    variable & description \\ \hline
+    $l$ & A LTLA \\
+    $t$ & A NHS Trust \\
+    $m_{l}$ & A LTLA measure from coronavirus.data.gov.uk, e.g., the no. of daily cases. \\
+    $e_{t}$ & An estimate NHS Trust level measure w.r.t. LTLA regions from whence it has received patients. \\
+    $\lambda_{l, \: t}$ & The flow weight from a LTLA to a NHS Trust. \\
+    $\rho_{l}$ & The patient population of a LTLA. \\
+    $\beta_{l, \: t}$ & The number of LTLA patients \(\rightarrow\) NHS Trust  w.r.t. a specified year \\
+    \end{tabular}
+\end{center}
 
 \vspace{20pt}
 
@@ -141,13 +164,13 @@ The first three are original NHS Trust level measures available via the [coronav
 \textcolor{blue}{
 **CNN**: Though the CNN is famous for computer vision, the one-dimensional convolution is useful for timeseries ... CNN has filters that slides over the data to capture the features of the data. These filters are the learnt by training. The filters are followed by pooling to reduce the size of the parameters that are learnt by the algorithm.}
 
-\vspace{10pt}
+
 
 ### Forecasting & History
 
 The outlined algorithms ... addressed via modelling w.r.t. varying historical data windows.  Altogether ... forecasting 15 days into the future w.r.t. "varying days of history" ... via window logic
 
-\vspace{10pt}
+
 
 ### Pre-modelling Procedures
 
@@ -161,25 +184,20 @@ The outlined algorithms ... addressed via modelling w.r.t. varying historical da
 ## EVALUATION
 
 The results section summarises the modelling results.  Model evaluation is via the error measures
-
 $$\text{loss} = \frac{1}{N} \sum^{N}_{n = 1} {(y_{t}(n) - y_{p}(n))^2} $$
-
 $$\text{MAE} = \frac{1}{N} \sum^{N}_{n = 1} {|y_{t}(n) - y_{p}(n)|}$$
-
 wherein
 
-\vspace{10pt}
-
 \begin{center}
+
     \begin{tabular}{c p{0.65\linewidth}l}\footnotesize
-    variable & description \\
+    variable & description \\ \hline
     $y_{t}$ & a true outcome value \\
     $y_{p}$ & a predicted outcome value \\
     $\text{loss}$  & the mean squared error \\
-    $text{MAE}$ & the mean absolute error\\
+    $\text{MAE}$ & the mean absolute error\\
     $N$ & the length of the outcome vector\\
     \end{tabular}
-    \captionof{table}{The error formulae terms.}
 \end{center}
 
 \vspace{35pt}
@@ -200,7 +218,7 @@ EndpointsMAE(endpoints = endpoints)
 EndpointsLoss(endpoints = endpoints)
 ```
 
-\pagebreak
+
 
 ```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'Pending'}
 melted <- EvaluationHistoriesData()
@@ -226,11 +244,7 @@ Project guide:
 
 * Validity (remember to discuss what would have been done differently to address identified limitations)
 
-
-
 \vspace{35pt}
-
-
 
 # CONCLUSIONS
 
@@ -240,7 +254,6 @@ Project Guide:
 * Reflection on the approach taken. (Appropriate?)
 
 * How would you have improved the approach in future? (Alternative methodologies, models, etc)
-
 
 \vspace{35pt}
 
