@@ -58,15 +58,10 @@ sys.source(file = 'R/EvaluationEndpoints.R', envir = knitr::knit_global())
 
 # INTRODUCTION
 
-\textcolor{blue}{Reviewer: HA}
+Since late January 2020, there have been over 17,515,199 SARS-CoV-2 case in the United Kingdom (UK) [@Flynn2020]. This virus can cause high fever, coughing, shortness of breath, pneumonia, as well as serious respiratory infections \textcolor{blue}{MISSING REF: Original reference required}. The growing number of daily infections and hospitalisations in the UK constitute a serious threat to an already overburdened healthcare system . Indeed, the National Health Service (NHS) cannot meet the needs of many patients with urgent medical conditions due to overcrowded hospitals \textcolor{blue}{MISSING REF: Original reference required.
+It is essential to monitor and forecast new inpatient admissions \textcolor{blue}{in order to} manage hospital resources efficiently, reduce overcrowding, and improve the quality of care received \textcolor{blue}{MISSING REF ...}. Therefore, this study focuses on the development of a coronavirus 19 disease new inpatients' prediction model.  Addressing this research question may help improve NHS performance and patient outcomes by providing more efficient and higher-quality patient care and optimising the allocation of limited resources to meet the growing demand for hospital places \textcolor{blue}{MISSING REF: Huang2019}.
 
-In December 2019, COVID-19, a newly emerging human virus, was discovered in China. Since then, it has spread rapidly across the globe. China's city of Wuhan is believed to be the epicentre of a pandemic that has caused massive hospitalisations [@Knight2020]. Besides fever and coughing, the new virus can also cause shortness of breath, pneumonia, as well as various serious respiratory infections [@Knight2020]. The growing number of daily contamination cases and massive hospitalizations is a serious threat to already overburdened health systems around the world. Thus, the health system cannot meet the needs of many patients with urgent medical conditions due to overcrowded hospitals \textcolor{blue}{MISSING REF: Bhapkar2020}.
-Most of the earlier Covid-19 hospitalization prediction studies focused on predictors such as new daily cases, vaccination rates, pre-existing health conditions, population size and socio-demographic factors to set up hospitalization patterns and trends \textcolor{blue}{MISSING REF: Zhou2018}.
-It is essential to monitor and forecast new admissions for inpatients to manage hospital resources efficiently, reduce overcrowding, and improve the quality of care received \textcolor{blue}{MISSING REF ...}. Therefore, in this study, we aim to find the range of predictors that may affect SARS-CoV-2 hospital admissions per NHS Trust as well as to predict Covid-19 new admission inpatients using time series models. Addressing these two research questions will improve NHS performance and patient outcomes by supplying more efficient and higher-quality patient care and optimising the allocation of limited resources to meet the growing demand for hospital places \textcolor{blue}{MISSING REF: Huang2019}.
-
-Hence, the project focused on the development of overarching task is the development of a model that predicts a NHS Trust's expected new admissions, per day,  This led to three core challenges
-
-The models forecast the expected new coronavirus disease admissions per day for the next 15 days.
+\textcolor{blue}{The succeeding section outlines the project's research strategy, and the data engineering, modelling, and evaluation steps.  Thereafter ...}
 
 \vspace{35pt}
 
@@ -86,7 +81,7 @@ knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knit
 
 In progress $\ldots$ includes research strategy [@Oates2006]
 
-\vspace{10pt}
+\vspace{20pt}
 
 ## DATA ENGINEERING
 
@@ -98,41 +93,96 @@ The data sources are: (a) the [coronavirus.data.gov.uk](https://coronavirus.data
 
 ### Structuring & Integrating.
 
-\textcolor{blue}{In progress $\ldots$}
+The structuring and integrating segment of $fig. 4$ ensures that all the data sets
+
+* have a [structured data file](https://www.ibm.com/cloud/blog/structured-vs-unstructured-data) set up, and
+* are appropriately mapped
+
+as illustrated.
 
 \vspace{10pt}
 
 ### Features Engineering.
 
-\textcolor{blue}{In progress $\ldots$}  The prospective modelling measures exists at either NHS Trust or Lower Tier Local Authority (LTLA) level, but our interest lies is in NHS Trust level admissions, therefore ... the NHS Trust level estimates ...
-
-
-
+The aim of the feature engineering segment is the construction of the design matrix & outcome vector variables.  The design matrix variables are the set of predictors, i.e., independent variables.  ... *fig. 1* outlines the variables-construction steps, and the variables are
 
 \vspace{10pt}
 
+* ``covidOccupiedBeds``: The no. of beds occupied by coronavirus disease patients.
+
+* ``covidOccupiedMVBeds``: The no. of mechanical ventilation beds occupied by coronavirus disease patients.
+
+* ``estimatedNewAdmissions``: **The outcome variable**.   Estimated by NHS England.
+
+* ``EDC0-4``, ``EDC5-9``, ..., ``EDC90+``: The estimated daily cases (EDC) by age group.
+
+* ``newDeaths28DaysByDeathDate``: The no. of estimated daily deaths, such that each death occurred *within 28 days of a first positive laboratory-confirmed test*.
+
+* ``EDV12-15``, ``EDV16-17``, ..., ``EDV90+``: The estimated no. of daily vaccinations (EDV) by age group; second vaccinations.
+
+\vspace{10pt}
+
+The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](coronavirus.data.gov.uk) API, whereas the remaining variables are project estimated NHS Trust level measures.  The project estimates rely on (a) the LTLA Level measures of the API, and (b) ...
+
+\vspace{20pt}
 
 ## MODELLING
 
-* Pre-modelling procedures.   [This point refers to the pre-ML/pre-forecasting pre-processing. It is separate from the initial pre-processing & features engineering that leads to the raw design matrix and dependent variable.]
-* Data mining techniques?
-* Statistical techniques?
+### The Algorithms
 
-H.A., J.R., C.O. were discussing:
+\textcolor{blue}{The SARS-CoV-2 infections measures have both spatial and temporal features, i.e., the spatially spread set of NHS Trusts, and the infection dynamics, respectively.}  A number of algorithms have been developed for such prediction challenges ... Long short-term memory (LSTM) [@Hochreiter1997], Gated Recurrent Unit (GRU) [@Cho2014],  Convolutional Neural Networks (CNN) [@Bai2018].
 
-* Data preparation ... temporal splitting, [rec, diff,  ...]
-* model design & training ...
-  * CNN, LSTM, GRU ... why?  briefly discuss type of problem
-  * Window ... why?  ... forecasting 15 days into the future based on unknown "effective days of history" ... windows allow us to investigate via varying history window sizes
+\textcolor{blue}{
+**LSTM**: In RNN, each layer takes the input data and the hidden state of past hidden state and outputs the hidden state, then this hidden state is given along with the input to the next layer. This hidden state holds the short-term memory. For the solution that requires long term memory, RNN would not be feasible option. To overcome this shortcoming we introduce LSTM. In LSTM, each layer outputs cell state which  is responsible for holding the long-time memory in addition to the hidden state. A LSTM cell contains simple RNN cells, cell states, forget gates, input gates and output gates. Input data and hidden state is given as input to all the components in the LSTM cell. Forget gate determines what to dismiss from the input and hidden state and hand that information to the cell state. Input gate in addition with the simple RNN cell determines what new information should be added to the cell state. This is outputted as cell state of the layer. Cell state value is also given as the input to the output gate to create a hidden state for the current layer. Hidden state and the cell state is given as the input to the next layer and the process continuous.}
+
+\textcolor{blue}{
+**GRU**: In contrast with LSTM, GRU has only hidden state. But it holds both the long term and short-term memory unlike the traditional RNN. GRU has two gates, the update gate and reset gate. The update gate determines how much to retain of the past memory. Reset gate determines how much past memory to forget. Reset gate output is used with the past hidden state and the input data to find the current memory content. This current memory content is used along with the update gate output and past hidden state to find the current hidden state output. This hidden state is then passed as the input to the next layer and the process continuous.}
+
+\textcolor{blue}{
+**CNN**: Though the CNN is famous for computer vision, the one-dimensional convolution is useful for timeseries ... CNN has filters that slides over the data to capture the features of the data. These filters are the learnt by training. The filters are followed by pooling to reduce the size of the parameters that are learnt by the algorithm.}
 
 \vspace{10pt}
 
-## EVALUATION
-A brief description of the evaluation metrics.  [Results discusses the evaluations in detail]
+### Forecasting & History
 
+The outlined algorithms ... addressed via modelling w.r.t. varying historical data windows.  Altogether ... forecasting 15 days into the future w.r.t. "varying days of history" ... via window logic
+
+\vspace{10pt}
+
+### Pre-modelling Procedures
+
+* temporal splitting ... training, validation, and testing data sets
+* reconstructing
+* differencing
+* normalisation
+
+\vspace{20pt}
+
+## EVALUATION
+
+The results section summarises the modelling results.  Model evaluation is via the error measures
+
+$$\text{loss} = \frac{1}{N} \sum^{N}_{n = 1} {(y_{t}(n) - y_{p}(n))^2} $$
+
+$$\text{MAE} = \frac{1}{N} \sum^{N}_{n = 1} {|y_{t}(n) - y_{p}(n)|}$$
+
+wherein
+
+\vspace{10pt}
+
+\begin{center}
+    \begin{tabular}{c p{0.65\linewidth}l}\footnotesize
+    variable & description \\
+    $y_{t}$ & a true outcome value \\
+    $y_{p}$ & a predicted outcome value \\
+    $\text{loss}$  & the mean squared error \\
+    $text{MAE}$ & the mean absolute error\\
+    $N$ & the length of the outcome vector\\
+    \end{tabular}
+    \captionof{table}{The error formulae terms.}
+\end{center}
 
 \vspace{35pt}
-
 
 # RESULTS
 
@@ -167,6 +217,8 @@ Project guide:
 * Explain your results and what your analysis revealed ()
 
 * What implications would your analysis' results have? How do your findings relate to the original question?
+
+\vspace{20pt}
 
 ## BIASES & VALIDITY
 
