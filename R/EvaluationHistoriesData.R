@@ -5,7 +5,7 @@
 
 .EvaluationHistoriesData <- function (method) {
 
-  path <- file.path(getwd(), 'data', 'modelling', 'evaluations', 'histories', method)
+  path <- file.path(getwd(), '..', 'infections', 'warehouse', 'modelling', 'evaluations', 'histories', method)
   files <- list.files(path = path, pattern = '*.csv')
 
   .Read <- function (filename) {
