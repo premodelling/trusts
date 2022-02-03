@@ -6,11 +6,11 @@
 EvaluationEndpointsData <- function () {
 
   # the validation metrics
-  validations <- read.csv(file = 'data/modelling/evaluations/endpoints/validations.csv')
+  validations <- read.csv(file = '../infections/warehouse/modelling/evaluations/endpoints/validations.csv')
   validations$phase <- 'validation'
 
   # the test metrics
-  tests <- read.csv(file = 'data/modelling/evaluations/endpoints/tests.csv')
+  tests <- read.csv(file = '../infections/warehouse/modelling/evaluations/endpoints/tests.csv')
   tests$phase <- 'testing'
 
   # concatenating
