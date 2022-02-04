@@ -83,6 +83,13 @@ sys.source(file = 'R/EvaluationEndpoints.R', envir = knitr::knit_global())
 
 * NHS Lancashire Teaching
 
+<br>
+
+**Source Code**
+
+* [github.com/premodelling/infections](https://www.github.com/premodelling/infections): The size of the group's data set and source code is quite large, hence the link.
+
+
 \clearpage
 
 # INTRODUCTION
