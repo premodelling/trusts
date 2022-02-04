@@ -1,0 +1,9 @@
+Package: trusts
+Type: Package
+Title: Infections Modelling & Analysis Notebook
+Version: 1.0
+Date: 2022-01-26
+Author: greyhypotheses
+Maintainer: greyhypotheses
+Description: Summarises the findings of premodelling/infections
+License:

@@ -1,0 +1,347 @@
+---
+bibliography: trusts/bibliography.bib
+fontsize: 10pt
+urlcolor: olive
+documentclass:
+    - article
+classoption:
+    - twocolumn
+geometry:
+    - letterpaper
+    - columnsep = 0.5in
+    - hmargin = 0.65in
+    - vmargin = 1.0in
+output:
+    rmarkdown::pdf_document:
+    keep_tex: FALSE
+    citation_package: "default"
+    number_sections: FALSE
+    extra_dependencies:
+        - booktabs
+header-includes:
+    - \usepackage{color}
+    - \usepackage{caption}
+    - \usepackage{booktabs}
+    - \captionsetup[figure]{font={footnotesize, color=gray}, width=.8\linewidth}
+    - \captionsetup[table]{font={footnotesize, color=gray}, width=.8\linewidth}
+    - \usepackage{xcolor}
+    - \usepackage{titlesec}
+    - \usepackage{tikz}
+    - \usetikzlibrary{shapes.geometric, arrows.meta, matrix, arrows, automata, positioning, shadows, trees}
+    - \definecolor{darkgrey}{rgb}{.45,.45,.45}
+    - \definecolor{wine}{rgb}{.44,.18,.21}
+    - \titleformat*{\subsection}{\bfseries\large\color{darkgrey}}
+---
+
+<!--- Global Settings --->
+```{r include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+<!--- Libraries --->
+```{r include = FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(magrittr)
+library(latex2exp)
+```
+
+
+```{r}
+sys.source(file = 'R/EvaluationHistoriesData.R', envir = knitr::knit_global())
+sys.source(file = 'R/EvaluationHistories.R', envir = knitr::knit_global())
+sys.source(file = 'R/EvaluationEndpointsData.R', envir = knitr::knit_global())
+sys.source(file = 'R/EvaluationEndpoints.R', envir = knitr::knit_global())
+```
+
+**Students:**
+
+* Mahi Chowdhury
+* Hala Awad
+* George Nzaji
+* Joshlin Ronisha Devadhasan Merwin Britto
+* Catherine Ojo
+
+<br>
+
+**Group Name:**
+
+* Health Data Science
+
+<br>
+
+**Project Name:**
+
+* NHS Covid Predictions
+
+<br>
+
+**Company Involved:**
+
+* NHS Lancashire Teaching
+
+\clearpage
+
+# INTRODUCTION
+
+Since late January 2020, there have been over 17,515,199 cases of SARS-CoV-2 infections in the United Kingdom (UK) [@Flynn2020]. The virus causes high fever, coughing, shortness of breath, pneumonia, as well as serious respiratory infections. The periods of high UK hospitalisation numbers were a serious threat to an already overburdened healthcare system. Indeed, the National Health Service (NHS) cannot meet the needs of many patients with urgent medical conditions due to overcrowded hospitals.[@Anderson2021]
+
+It is essential to monitor and forecast new inpatient admissions, during an infectious disease outbreak or pandemic, in order to manage hospital resources efficiently, reduce overcrowding, and improve the quality of care received. To this end, this project focuses on the development of an inpatients' prediction model that may help a hospital's contingency planning during an infectious disease outbreak/pandemic.
+
+The project's aim is the development of a prediction model that forecasts what the expected number of patient admissions will/might be - per day, N days ahead, and per NHS Trust - during an infectious disease pandemic.  The aim underlies the research question - how many future admissions should a NHS trust expect during an infectious disease pandemic?  The infectious disease in focus is coronavirus 19 disease; and by virtue of the characteristics of SAR-CoV-2 infections & coronavirus 19 disease the project's objectives are to
+
+* Investigate the question, how many days of infection history lead to the most accurate forecasts?
+* Forecast the expected daily new admissions for the next 15 days
+
+The next section outlines the project's methods.  In relation to model development, we focused on algorithms that use historical data to predict future events.  The best results are due to the developed Long short-term memory (LSTM) [@Hochreiter1997]; the testing phase mean absolute errors are below 0.75, whilst the validation phase mean absolute errors are below 0.5.  For the projects code please visit [github.com/premodelling/infections](https://www.github.com/premodelling/infections).
+
+
+\vspace{35pt}
+
+
+# METHODS
+
+The schematic illustration of *fig. 1* outlines the project's data engineering, modelling, and evaluation steps, which underlie the project's research strategy.  This section briefly discusses the research strategy, and the steps.
+
+\vspace{20pt}
+
+```{r fig.align = 'center', fig.cap = "The project's processing, analysis, modelling, and evaluation steps.  Please refer to the methodologies section for a brief description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.  MSOA: middle layer super output area, LTLA: lower tier local authority, ONS: office for national statistics, NHS: national health service, PHE: Public Health England."}
+knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
+                        dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
+)
+```
+
+\vspace{20pt}
+
+## RESEARCH STRATEGY
+
+Foremost, understand the problem; guided by domain expertise.  Next, collect the required data.   Finally, develop a set of appropriate models, and evaluate their results. [@Oates2006]
+
+\vspace{20pt}
+
+## DATA ENGINEERING
+
+### Data Collection.
+
+The data sources are: (a) the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk/details/developers-guide/main-api) application programming interface (API) for England's SARS-CoV-2 infections measures, (b) the [office for national statistics (ONS)](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/middlesuperoutputareamidyearpopulationestimates) for population estimates, (c) [Public Health England (PHE)](https://app.box.com/s/qh8gzpzeo1firv1ezfxx2e6c4tgtrudl) for the annual intake of patients from one or more middle layer super output areas to an NHS Trust, and (d) the [Open Geography Portal (geoportal)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(LUP_MSOA_WD_LAD)) for the middle layer super output area (MSOA) $\leftrightarrow$ lower tier local authority (LTLA) geographic codes mappings.  The SARS-CoV-2 infections measures of this project span the period 1 March 2020 until 20 January 2022.
+
+\vspace{10pt}
+
+### Structuring & Integrating.
+
+The structuring and integrating segment of $fig. 1$ ensures that all the data sets
+
+* have a [structured data file](https://www.ibm.com/cloud/blog/structured-vs-unstructured-data) set up, and
+* are appropriately mapped
+
+as illustrated.
+
+\vspace{10pt}
+
+### Features Engineering.
+
+The aim of *fig. 1's* feature engineering segment is the construction of the design matrix & outcome vector variables.  The design matrix variables are the set of predictors, i.e., independent variables.  The variables are
+
+\vspace{10pt}
+
+* \textcolor{wine}{covidOccupiedBeds}: The no. of beds occupied by coronavirus disease patients.
+
+* \textcolor{wine}{covidOccupiedMVBeds}: The no. of mechanical ventilation beds occupied by coronavirus disease patients.
+
+* \textcolor{wine}{estimatedNewAdmissions}: **The outcome variable**.  Estimated by NHS England.
+
+* \textcolor{wine}{EDC0-4, EDC5-9, ..., EDC90+}: The estimated daily cases (EDC) by age group.
+
+* \textcolor{wine}{newDeaths28DaysByDeathDate}: The no. of estimated daily deaths, such that each death occurred *within 28 days of a first positive laboratory-confirmed test*.
+
+* \textcolor{wine}{EDV12-15, EDV16-17, ..., EDV90+}: The estimated no. of daily vaccinations (EDV) by age group; second vaccinations.
+
+\vspace{10pt}
+
+The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) application programming interface, whereas the remaining variables are project estimated NHS Trust level measures.  An estimated NHS Trust value is
+
+\begin{equation}
+e_{t} = \sum_{l}{\lambda_{l, \: t} m_{l}}
+\end{equation}
+
+whereby
+
+\begin{equation}
+\lambda_{l, \: t} =  \frac{\beta_{l, \: t}}{\rho_{l}}
+\end{equation}
+
+and
+
+\begin{center}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{c p{0.65\linewidth}l}\footnotesize
+    variable & description \\ \hline
+    $l$ & A LTLA \\
+    $t$ & A NHS Trust \\
+    $m_{l}$ & A LTLA measure from coronavirus.data.gov.uk, e.g., the no. of daily cases. \\
+    $e_{t}$ & An estimate NHS Trust level measure w.r.t. LTLA regions from whence it has received patients. \\
+    $\lambda_{l, \: t}$ & The flow weight from a LTLA to a NHS Trust. \\
+    $\rho_{l}$ & The patient population of a LTLA. \\
+    $\beta_{l, \: t}$ & The number of LTLA patients \(\rightarrow\) NHS Trust  w.r.t. a specified year \\
+    \end{tabular}
+\end{center}
+
+\vspace{20pt}
+
+## MODELLING
+
+### The Algorithms
+
+The SARS-CoV-2 infections measures have both spatial and temporal features, i.e., the spatially spread set of NHS Trusts, and the infection dynamics, respectively.  A number of algorithms have been developed for spatio-temporal prediction problems.  The project focuses on **(a)** Long short-term memory (LSTM) [@Hochreiter1997], **(b)** Gated Recurrent Unit (GRU) [@Cho2014], and **(c)** [Temporal]  Convolutional Neural Networks (CNN) [@Bai2018], because they were developed for
+
+* Spatio-temporal problems.
+* Learning from the past.
+
+\vspace{10pt}
+
+### Forecasting & History
+
+The outlined algorithms forecast 15 days into the future w.r.t. "varying days of history" (*fig. 2*).
+
+```{r out.width = '80%', fig.align = 'center', fig.cap = "Prediction windows logic"}
+knitr::include_graphics(path = 'images/windows.pdf', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
+                        dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
+)
+```
+
+\vspace{10pt}
+
+### Pre-modelling Procedures
+
+The pre-modelling procedures are
+
+* Temporal Splitting
+* Differencing
+* Reconstruction
+* Normalisation
+
+A temporal splitting step splits a data set into training, validation, and testing data sets along the time dimension.  A training, validation, and testing data set, per NHS Trust, is created.   In relation to this project, after differencing each variable point is
+
+\begin{equation}
+x_{t + 1} - x_{t}
+\end{equation}
+
+Reconstruction refers to the merging of the data splits per trust into 3 data sets; a training, validation, and testing data set.  Merging is not by concatenation, it's a positional merge that is appropriate for developing an overarching model instead of a model per entity. For example, instead of a model for each of the 140 NHS Trusts, a single overarching model.
+
+Finally, the normalisation step ensures a standard scale across all variables.
+
+
+\vspace{20pt}
+
+## EVALUATION
+
+The results section summarises the modelling results.  Model evaluation is via the error measures
+
+\begin{equation}
+\text{loss} = \frac{1}{N} \sum^{N}_{n = 1} {(y_{t}(n) - y_{p}(n))^2}
+\end{equation}
+
+and
+
+\begin{equation}
+\text{MAE} = \frac{1}{N} \sum^{N}_{n = 1} {|y_{t}(n) - y_{p}(n)|}
+\end{equation}
+
+wherein
+
+\begin{center}
+    \begin{tabular}{c p{0.65\linewidth}l}\footnotesize
+    variable & description \\ \hline
+    $y_{t}$ & a true outcome value \\
+    $y_{p}$ & a predicted outcome value \\
+    $\text{loss}$  & the mean squared error \\
+    $\text{MAE}$ & the mean absolute error\\
+    $N$ & the length of the outcome vector\\
+    \end{tabular}
+\end{center}
+
+\vspace{35pt}
+
+# RESULTS
+
+## MODEL EVALUATION
+
+Let the *history window* be the number of past days of data used for predictions.
+
+\vspace{10pt}
+
+```{r out.width = '70%', fig.height = 9, fig.align = 'center', fig.cap = 'The mean absolute errors of the validation and testing phase.'}
+endpoints <- EvaluationEndpointsData()
+EndpointsMAE(endpoints = endpoints)
+```
+
+\vspace{10pt}
+
+The graphs of *fig. 3* summarise the validation & testing phase MAE.  Per algorithm type, and regardless of the history window, the testing phase MAE values are higher than the validation phase values. The LSTM error values are consistently low.  Whereas, the CNN error values are rather haphazard, especially the testing phase values. The pattern of the CNN errors might be due to over-fitting, or perhaps a different CNN architecture might be appropriate. The lowest LSTM MAE value is due to a 39-day history window.
+
+\vspace{10pt}
+
+```{r out.width = '70%', fig.height = 9, fig.align = 'center', fig.cap = 'Loss w.r.t. the ...'}
+EndpointsLoss(endpoints = endpoints)
+```
+
+\vspace{10pt}
+
+The pattern of the loss & MAE values are quite similar (Cf. *fig. 3* & *fig. 4*).  Once again, the LSTM error values are consistently low (*fig. 4*).  The CNN testing phase errors are quite haphazard, but its validation phase errors are almost consistent.
+
+\vspace{10pt}
+
+```{r out.width = '85%', fig.height = 7, fig.align = 'center', fig.cap = 'Pending'}
+melted <- EvaluationHistoriesData()
+ValidationHistoryMAE(melted = melted)
+```
+
+\vspace{10pt}
+
+Per model, the graphs of *fig. 5* summarise each history window's MAE per epoch. The CNN MAE values are spread-out, whereas the LSTM MAE values are compact.  The LSTM model converges faster than the CNN model, hence the fewer epochs.
+
+\vspace{10pt}
+
+```{r out.width = '85%', fig.height = 7, fig.align = 'center', fig.cap = 'The loss errors'}
+ValidationHistoryLoss(melted = melted)
+```
+
+\vspace{10pt}
+
+The distribution patterns of the loss values (*fig. 6*) are similar to those of the MAE values.  Altogether, it seems
+
+* It is possible to predict future patient admissions via the LSTM model, in conjunction with the predictors listed within the feature engineering section.
+* A slightly more complex CNN architecture might lead to lower, and more stable, CNN model error measures.
+* The estimated NHS Trust level values might be good estimates of the real values; further tests required.
+
+Due to time and insufficient computing resources, the GRU model runs had to be stopped.  However, the GitHub repository includes the GRU class.
+
+\vspace{20pt}
+
+## BIASES & VALIDITY
+
+In order to combat any biases that may hinder the validity of our study we followed the Transparent Reporting of multivariate prediction model for Individual Prognosis or Diagnosis (TRIPOD) [@Collins2015].  This is important because the systematic review by Wynants et al. [@Wynants2020] noted that almost all COVID-19 prediction models they reviewed exhibited high bias.  In terms of validity
+
+* Internal Validity: The degree to which a cause and effect relationship can be discerned between the predictors and the outcome variable, i.e., expected new admissions, is limited.  It is not the question in focus.
+
+* Construct Validity: The operational setting does reflect the construct.  Each model predicts - the number of new inpatient admissions per day, per trust, for the next 15 days.  This is in line with the project's aim.
+
+* External Validity: The study's conclusions can be generalised to England, the data covers the entire region.  The study did include narrow external validation - the time points of the testing data do not overlap with the earlier time points of the validation or training data.  However, evaluation is in relation to England only, to generalise further the models should be tested in different geographic regions.
+
+* Conclusion Validity: The loss and mean absolute errors associated with the developed prediction models, especially the LSTM model, are *small*.  Hence, it is probably reasonable to conclude that the predictors listed within the feature engineering section are plausible predictors.
+
+\vspace{35pt}
+
+# CONCLUSIONS
+
+In general, it is nigh impossible to state whether one of the machine learning algorithms is better than the other.  Partly because each algorithm's architecture can have numerous designs.
+
+An option that would have led to a better model is boosting, i.e., a model built via an ensemble of models via methods such as AdaBoost [@Freund1996].
+
+\vspace{35pt}
+
+# REFERENCES
+
