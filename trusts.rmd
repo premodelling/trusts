@@ -78,7 +78,7 @@ The next section outlines the project's methods.  In relation to model developme
 
 The schematic illustration of *fig. 1* outlines the project's data engineering, modelling, and evaluation steps, which underlie the project's research strategy.  This section briefly discusses the research strategy, and the steps.
 
-```{r out.width = '90%', fig.height = 7, fig.align = 'center', fig.cap = "The project's processing, analysis, modelling, and evaluation steps.  Please refer to the methodologies section for a brief description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.  MSOA: middle layer super output area, LTLA: lower tier local authority, ONS: office for national statistics, NHS: national health service, PHE: Public Health England."}
+```{r fig.align = 'center', fig.cap = "The project's processing, analysis, modelling, and evaluation steps.  Please refer to the methodologies section for a brief description of (a) the patient flow weights, and (b) the estimation of NHS trust level measures via flow weights and LTLA level measures.  MSOA: middle layer super output area, LTLA: lower tier local authority, ONS: office for national statistics, NHS: national health service, PHE: Public Health England."}
 knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knitr.graphics.auto_pdf", default = TRUE),
                         dpi = NULL,  error = getOption(x = "knitr.graphics.error", default = TRUE)
 )
@@ -88,7 +88,7 @@ knitr::include_graphics(path = 'images/flow.pdf', auto_pdf = getOption(x = "knit
 
 ## RESEARCH STRATEGY
 
-In progress $\ldots$ includes research strategy [@Oates2006]
+Foremost, understand the problem; guided by domain expertise.  Next, collect the required data.   Finally, develop a set of appropriate models, and evaluate their results. [@Oates2006]
 
 \vspace{20pt}
 
@@ -231,7 +231,7 @@ EndpointsMAE(endpoints = endpoints)
 
 \vspace{10pt}
 
-The graphs of *fig. ...* summarise the validation & testing phase MAE.  Per algorithm type, and regardless of the history window, the testing phase MAE values are higher than the validation phase values. The LSTM error values are consistently low.  Whereas, the CNN error values are rather haphazard, especially the testing phase values. The pattern of the CNN errors might be due to the over-fitting, or perhaps a different CNN architecture might be appropriate. The lowest LSTM MAE value is due to a 39-day history window.
+The graphs of *fig. 3* summarise the validation & testing phase MAE.  Per algorithm type, and regardless of the history window, the testing phase MAE values are higher than the validation phase values. The LSTM error values are consistently low.  Whereas, the CNN error values are rather haphazard, especially the testing phase values. The pattern of the CNN errors might be due to over-fitting, or perhaps a different CNN architecture might be appropriate. The lowest LSTM MAE value is due to a 39-day history window.
 
 \vspace{10pt}
 
@@ -241,41 +241,36 @@ EndpointsLoss(endpoints = endpoints)
 
 \vspace{10pt}
 
-The pattern of the loss & MAE values are quite similar (Cf. fig. & fig.).  Once again, the LSTM error values are consistently low (*fig. ...*).  The CNN testing phase errors are quite haphazard, but its validation phase errors are almost consistent.
+The pattern of the loss & MAE values are quite similar (Cf. *fig. 3* & *fig. 4*).  Once again, the LSTM error values are consistently low (*fig. 4*).  The CNN testing phase errors are quite haphazard, but its validation phase errors are almost consistent.
+
+\vspace{10pt}
 
 ```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'Pending'}
 melted <- EvaluationHistoriesData()
 ValidationHistoryMAE(melted = melted)
 ```
 
-The validation loss MAE for the LSTM and CNN were compared against the epoch with number of days as the third variable (Figure 4). In the CNN, though the loss were spread out, low loss value was in consensus when the 39 past days data was used as the input. In the LSTM, loss was not as spread out as the loss in the CNN. The loss was higher when the smaller number of the days was used as the input compared to the loss where more than 35 days were used as the input.
+\vspace{10pt}
+
+Per model, the graphs of *fig. 5* summarise each history window's MAE per epoch. The CNN MAE values are spread-out, whereas the LSTM MAE values are compact.
+
+\vspace{10pt}
 
 ```{r out.width = '85%', fig.height = 6.5, fig.align = 'center', fig.cap = 'The loss errors'}
 ValidationHistoryLoss(melted = melted)
 ```
 
-The validation loss MSE for the LSTM and CNN were compared against the epoch with number of days as the third variable (Figure 5). The pattern was the same as the MAE, low loss values was noted in when a greater number of days were used as the input in CNN and LSTM.  The loss of the LSTM seemed to lower than the loss noted in the MAE.
+\vspace{10pt}
 
-More number of days were given as the input the less loss in noted in both the LSTM and CNN. The LSTM showed a pattern in the loss distribution in the testing phase, where as the CNN loss were more spread out. There was a stark difference in the loss between the CNN in the validation phase and the testing phase.
-
-
-
-
-
-
-
-
-
-
-
+The loss values distribution patterns (*fig. 6*) are similar to the MAE values distribution pattern.
 
 
 Altogether, it seems
 
-* it is possible to predict future patient admissions
+* it is possible to predict future patient admissions via LSTM
 * the estimated NHS Trust level values might be robust  ... should be tested
 
-* What implications would your analysis' results have? How do your findings relate to the original question?
+How do your findings relate to the original question?
 
 \vspace{20pt}
 
