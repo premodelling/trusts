@@ -118,15 +118,20 @@ The aim of *fig. 1's* feature engineering segment is the construction of the des
 \vspace{10pt}
 
 * \textcolor{wine}{covidOccupiedBeds}: The no. of beds occupied by coronavirus disease patients.
+
 * \textcolor{wine}{covidOccupiedMVBeds}: The no. of mechanical ventilation beds occupied by coronavirus disease patients.
+
 * \textcolor{wine}{estimatedNewAdmissions}: **The outcome variable**.  Estimated by NHS England.
+
 * \textcolor{wine}{EDC0-4, EDC5-9, ..., EDC90+}: The estimated daily cases (EDC) by age group.
+
 * \textcolor{wine}{newDeaths28DaysByDeathDate}: The no. of estimated daily deaths, such that each death occurred *within 28 days of a first positive laboratory-confirmed test*.
+
 * \textcolor{wine}{EDV12-15, EDV16-17, ..., EDV90+}: The estimated no. of daily vaccinations (EDV) by age group; second vaccinations.
 
 \vspace{10pt}
 
-The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) API, whereas the remaining variables are project estimated NHS Trust level measures.  An estimated NHS Trust value is
+The first three are original NHS Trust level measures available via the [coronavirus.data.gov.uk](https://coronavirus.data.gov.uk) application programming interface, whereas the remaining variables are project estimated NHS Trust level measures.  An estimated NHS Trust value is
 
 $$e_{t} = \sum_{l}{\lambda_{l, \: t} m_{l}}$$
 
@@ -264,13 +269,13 @@ ValidationHistoryLoss(melted = melted)
 
 The loss values distribution patterns (*fig. 6*) are similar to the MAE values distribution pattern.
 
+\vspace{10pt}
 
 Altogether, it seems
 
-* it is possible to predict future patient admissions via LSTM
-* the estimated NHS Trust level values might be robust  ... should be tested
+* It is possible to predict future patient admissions via LSTM and the predictors listed within the feature engineering sectio.
+* The estimated NHS Trust level values might be good estimates of the real values; further tests required.
 
-How do your findings relate to the original question?
 
 \vspace{20pt}
 
@@ -284,9 +289,9 @@ How do your findings relate to the original question?
 
 # CONCLUSIONS
 
-In general, it is nigh impossible to state whether one algorithm is better than the other.  Why?  Numerous architectures can be designed per algorithm type.  An option might be ...
+In general, it is nigh impossible to state whether one of the machine learning algorithms is better than the other.  Partly because each algorithm's architecture can have numerous designs.
 
-Options that would have improved the model include ... boosting
+An option that would have improved the model is boosting.
 
 \vspace{35pt}
 
