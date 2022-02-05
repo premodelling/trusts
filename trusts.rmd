@@ -291,7 +291,7 @@ The graphs of *fig. 3* summarise the validation & testing phase MAE.  Per algori
 
 \vspace{10pt}
 
-```{r out.width = '70%', fig.height = 9, fig.align = 'center', fig.cap = 'Loss w.r.t. the ...'}
+```{r out.width = '70%', fig.height = 9, fig.align = 'center', fig.cap = 'The validation and testing phase loss values.'}
 EndpointsLoss(endpoints = endpoints)
 ```
 
@@ -301,7 +301,7 @@ The pattern of the loss & MAE values are quite similar (Cf. *fig. 3* & *fig. 4*)
 
 \vspace{10pt}
 
-```{r out.width = '85%', fig.height = 7, fig.align = 'center', fig.cap = 'Pending'}
+```{r out.width = '85%', fig.height = 7, fig.align = 'center', fig.cap = "Each history window's mean absolute error per epoch; validation phase."}
 melted <- EvaluationHistoriesData()
 ValidationHistoryMAE(melted = melted)
 ```
@@ -312,7 +312,7 @@ Per model, the graphs of *fig. 5* summarise each history window's MAE per epoch.
 
 \vspace{10pt}
 
-```{r out.width = '85%', fig.height = 7, fig.align = 'center', fig.cap = 'The loss errors'}
+```{r out.width = '85%', fig.height = 7, fig.align = 'center', fig.cap = "Each history window's loss per epoch; validation phase."}
 ValidationHistoryLoss(melted = melted)
 ```
 
