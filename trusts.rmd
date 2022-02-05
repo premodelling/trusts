@@ -57,41 +57,6 @@ sys.source(file = 'R/EvaluationEndpointsData.R', envir = knitr::knit_global())
 sys.source(file = 'R/EvaluationEndpoints.R', envir = knitr::knit_global())
 ```
 
-**Students:**
-
-* Mahi Chowdhury
-* Hala Awad
-* George Nzaji
-* Joshlin Ronisha Devadhasan Merwin Britto
-* Catherine Ojo
-
-<br>
-
-**Group Name:**
-
-* Health Data Science
-
-<br>
-
-**Project Name:**
-
-* NHS Covid Predictions
-
-<br>
-
-**Company Involved:**
-
-* NHS Lancashire Teaching
-
-<br>
-
-**Source Code**
-
-* [github.com/premodelling/infections](https://www.github.com/premodelling/infections): The size of the group's data set and source code is quite large, hence the link.
-
-
-\clearpage
-
 # INTRODUCTION
 
 Since late January 2020, there have been over 17,515,199 cases of SARS-CoV-2 infections in the United Kingdom (UK) [@Flynn2020]. The virus causes high fever, coughing, shortness of breath, pneumonia, as well as serious respiratory infections. The periods of high UK hospitalisation numbers were a serious threat to an already overburdened healthcare system. Indeed, the National Health Service (NHS) cannot meet the needs of many patients with urgent medical conditions due to overcrowded hospitals.[@Anderson2021]
