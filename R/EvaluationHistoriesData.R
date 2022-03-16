@@ -22,12 +22,13 @@
 }
 
 
-EvaluationHistoriesData <- function () {
+EvaluationHistoriesData <- function (methods) {
 
-  lstm <- .EvaluationHistoriesData(method = 'LSTM')
-  cnn <- .EvaluationHistoriesData(method = 'CNN')
+  # the evaluation history per method
+  histories <- lapply(X = methods, FUN = .EvaluationHistoriesData)
+  history <- dplyr::bind_rows(histories)
 
-  history <- rbind(lstm, cnn)
+  # convert the <method> field to a factor field
   history$method <- as.factor(history$method)
 
   melted <- history %>%
