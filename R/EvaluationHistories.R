@@ -4,9 +4,9 @@
 # Created on: 30/01/2022
 
 
-ValidationHistoryMAE <- function (melted) {
+ValidationHistoryMAE <- function (histories) {
 
-  excerpt <- melted %>%
+  excerpt <- histories %>%
     dplyr::filter(Metric == 'val_mean_absolute_error')
   excerpt$history <- as.factor(x = excerpt$history)
 
@@ -34,9 +34,9 @@ ValidationHistoryMAE <- function (melted) {
 
 }
 
-ValidationHistoryLoss <- function (melted) {
+ValidationHistoryLoss <- function (histories) {
 
-  excerpt <- melted %>%
+  excerpt <- histories %>%
     dplyr::filter(Metric == 'val_loss')
   excerpt$history <- as.factor(x = excerpt$history)
 
