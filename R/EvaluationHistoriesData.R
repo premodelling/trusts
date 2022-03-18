@@ -35,7 +35,7 @@ EvaluationHistoriesData <- function (methods) {
     select(!ahead) %>%
     gather(key = 'Metric', value = 'Estimate', -c('epoch', 'history', 'method'))
   melted$Metric <- factor(x = melted$Metric,
-                          levels = c('val_loss', 'val_mean_absolute_error'))
+                          levels = c('val_loss', 'val_mean_absolute_error', 'loss', 'mean_absolute_error'))
 
   return(melted)
 
